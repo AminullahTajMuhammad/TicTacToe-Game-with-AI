@@ -295,9 +295,10 @@ class TicTacToe {
 			gotoxy(1, 20);
 			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
 			isGame = false;
+			exit(1);
 		}
 
-		if (box[0][0] == 'O' && box[0][1] == 'O' && box[0][2] == 'O' || box[1][0] == 'O' && box[1][1] == 'O' && box[1][2] == 'O' ||
+		else if (box[0][0] == 'O' && box[0][1] == 'O' && box[0][2] == 'O' || box[1][0] == 'O' && box[1][1] == 'O' && box[1][2] == 'O' ||
 			box[2][0] == 'O' && box[2][1] == 'X' && box[2][2] == 'O' || box[0][0] == 'O' && box[1][0] == 'O' && box[2][0] == 'O' ||
 			box[0][1] == 'O' && box[1][1] == 'X' && box[2][1] == 'O' || box[0][2] == 'O' && box[1][2] == 'O' && box[2][2] == 'O' ||
 			box[0][0] == 'O' && box[1][1] == 'X' && box[2][2] == 'O' || box[0][2] == 'O' && box[1][1] == 'O' && box[2][0] == 'O') {
@@ -310,12 +311,13 @@ class TicTacToe {
 };
 int main() {
 	TicTacToe tictactoe;
-	while(isGame) {
+	while(isGame == true) {
+		
+		//bool isCheckForWinner;
 		tictactoe.printBoard();
 		tictactoe.giveinput();
-		tictactoe.updateInputIntoZero();
 		tictactoe.checkWin();
-		
+		tictactoe.updateInputIntoZero();
 	}
 	
 }
