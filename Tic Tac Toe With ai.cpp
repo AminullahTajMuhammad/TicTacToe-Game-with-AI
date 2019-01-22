@@ -290,114 +290,45 @@ class TicTacToe {
 	
 	bool checkWin() {
 		// Check For O wins
-		if(box[0][0] == 'X' && box[0][1] == 'X' && box[0][2] == 'X') {
-			forCheck = true;
-		}
-		if(box[1][0] == 'X' && box[1][1] == 'X' && box[1][2] == 'X') {
-			forCheck = 1;
+		if( box[0][0] == 'X' && box[0][1] == 'X' && box[0][2] == 'X' || box[1][0] == 'X' && box[1][1] == 'X' && box[1][2] == 'X' || 
+			box[2][0] == 'X' && box[2][1] == 'X' && box[2][2] == 'X' || box[0][0] == 'X' && box[1][0] == 'X' && box[2][0] == 'X' ||
+			box[0][1] == 'X' && box[1][1] == 'X' && box[2][1] == 'X' || box[0][2] == 'X' && box[1][2] == 'X' && box[2][2] == 'X' || 
+			box[0][0] == 'X' && box[1][1] == 'X' && box[2][2] == 'X' || box[0][2] == 'X' && box[1][1] == 'X' && box[2][0] == 'X') {
+			
 			gotoxy(1, 20);
 			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
+			return false;
+		
 		}
-		if(box[2][0] == 'X' && box[2][1] == 'X' && box[2][2] == 'X') {
-			forCheck = 1;
-			gotoxy(1, 20);
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][0] == 'X' && box[1][0] == 'X' && box[2][0] == 'X') {
-			forCheck = 1;
-			gotoxy(1, 20);
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][1] == 'X' && box[1][1] == 'X' && box[2][1] == 'X') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][2] == 'X' && box[1][2] == 'X' && box[2][2] == 'X') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][0] == 'X' && box[1][1] == 'X' && box[2][2] == 'X') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if (box[0][2] == 'X' && box[1][1] == 'X' && box[2][0] == 'X') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "X player Wins Means " << Player1 << " Wins: " << endl;
-			forCheck = true;
-		}
-
 
 		// Check For O wins
-		if(box[0][0] == 'O' && box[0][1] == 'O' && box[0][2] == 'O') {
+		if( box[0][0] == 'O' && box[0][1] == 'O' && box[0][2] == 'O' || box[1][0] == 'O' && box[1][1] == 'O' && box[1][2] == 'O' || 
+			box[2][0] == 'O' && box[2][1] == 'O' && box[2][2] == 'O' || box[0][0] == 'O' && box[1][0] == 'O' && box[2][0] == 'O' ||
+			box[0][1] == 'O' && box[1][1] == 'O' && box[2][1] == 'O' || box[0][2] == 'O' && box[1][2] == 'O' && box[2][2] == 'O' || 
+			box[0][0] == 'O' && box[1][1] == 'O' && box[2][2] == 'O' || box[0][2] == 'O' && box[1][1] == 'O' && box[2][0] == 'O') {
+		
 			gotoxy(1, 20);
-			forCheck = 1;
 			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[1][0] == 'O' && box[1][1] == 'O' && box[1][2] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[2][0] == 'O' && box[2][1] == 'X' && box[2][2] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][0] == 'O' && box[1][0] == 'O' && box[2][0] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][1] == 'O' && box[1][1] == 'X' && box[2][1] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][2] == 'O' && box[1][2] == 'O' && box[2][2] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][0] == 'O' && box[1][1] == 'X' && box[2][2] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
-		}
-		if(box[0][2] == 'O' && box[1][1] == 'O' && box[2][0] == 'O') {
-			gotoxy(1, 20);
-			forCheck = 1;
-			cout << "O player Wins Means " << Player2 << " Wins: " << endl;
-			forCheck = true;
+			return false;
+		
 		}
 		
-		return forCheck;
+		return true;
 	}
 	
-	bool isDraw() {
-		if(forCheck == true) {
-			return false;
+	void isDraw() {
+		if( box[0][0] != ' ' && box[0][1] != ' ' && box[0][2] != ' ' &&
+			box[1][0] != ' ' && box[1][1] != ' ' && box[1][2] != ' ' && 
+			box[2][0] != ' ' && box[2][1] != ' ' && box[2][2] != ' ' && checkWin() == true) {
+				gotoxy(1, 20);
+				cout << "Match is Draw " << endl;
+				return false;
 		}
 	}
 };
 int main() {
 	TicTacToe tictactoe;
+	
 	while(isGame == true) {
 	abc:
 		bool isCheckForWinner;
@@ -407,10 +338,20 @@ int main() {
 		tictactoe.giveinput();
 		
 		// return a value to check that the match who wins
+		// check win for X player
 		isCheckForWinner = tictactoe.checkWin();
-		if(isCheckForWinner == true) {
+		if(isCheckForWinner == false) {
 			break;
 		}
+		tictactoe.isDraw();
 		tictactoe.updateInputIntoZero();
+	
+		// return a value to check that the match who wins
+		// check win for O player
+		isCheckForWinner = tictactoe.checkWin();
+		if(isCheckForWinner == false) {
+			break;
+		}
+		tictactoe.isDraw();
 	}
 }
