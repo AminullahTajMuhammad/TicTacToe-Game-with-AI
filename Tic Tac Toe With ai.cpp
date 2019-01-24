@@ -1,13 +1,12 @@
 #include<iostream>
 #include<conio.h>
+#include<cstdlib>
 #include<cstring>
 #include<iomanip>				// for setw() function
 #include<Windows.h>				// for coloring and x,y coordinates for consol
 using namespace std;
 HANDLE hConsole;
-bool forCheck = false;
 bool isGame = true;
-bool checkForDraw = true;
 //---------- X,Y Co-Ordinates Function ---------------//
 void gotoxy(int x, int y) { 
     COORD coord;
@@ -27,7 +26,6 @@ class TicTacToe {
 		string Player1, Player2;
 		
 	public:
-		
 		void printBoard() {
 			cout << endl;
 			gotoxy(10,2);
@@ -162,7 +160,7 @@ class TicTacToe {
 	}
 	
 	void updateInputIntoZero() {
-	abc:
+	AGAIN:
 		gotoxy(1,12);
 		cout << "O player turn: ";
 		gotoxy(1,13);
@@ -178,7 +176,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 7);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 2) {
@@ -191,7 +189,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 8);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 3) {
@@ -204,7 +202,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 9);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 4) {
@@ -217,7 +215,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 10);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 5) {
@@ -230,7 +228,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 11);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 6) {
@@ -243,7 +241,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 12);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 7) {
@@ -255,7 +253,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 13);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 8) {
@@ -268,7 +266,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 14);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		else if (positionForUser == 9) {
@@ -281,7 +279,7 @@ class TicTacToe {
 				SetConsoleTextAttribute(hConsole, 15);
 				cout << "This position is filled enter empty position: \n\n";
 				SetConsoleTextAttribute(hConsole, 15);
-				goto abc;
+				goto AGAIN;
 			}
 		}
 		SetConsoleTextAttribute(hConsole, 7);
@@ -289,7 +287,7 @@ class TicTacToe {
 	}
 	
 	bool checkWin() {
-		// Check For O wins
+		// Check For X wins
 		if( box[0][0] == 'X' && box[0][1] == 'X' && box[0][2] == 'X' || box[1][0] == 'X' && box[1][1] == 'X' && box[1][2] == 'X' || 
 			box[2][0] == 'X' && box[2][1] == 'X' && box[2][2] == 'X' || box[0][0] == 'X' && box[1][0] == 'X' && box[2][0] == 'X' ||
 			box[0][1] == 'X' && box[1][1] == 'X' && box[2][1] == 'X' || box[0][2] == 'X' && box[1][2] == 'X' && box[2][2] == 'X' || 
@@ -320,17 +318,18 @@ class TicTacToe {
 		if( box[0][0] != ' ' && box[0][1] != ' ' && box[0][2] != ' ' &&
 			box[1][0] != ' ' && box[1][1] != ' ' && box[1][2] != ' ' && 
 			box[2][0] != ' ' && box[2][1] != ' ' && box[2][2] != ' ' && checkWin() == true) {
+			
 				gotoxy(1, 20);
 				cout << "Match is Draw " << endl;
-				return false;
+		
 		}
 	}
+	
 };
 int main() {
 	TicTacToe tictactoe;
 	
 	while(isGame == true) {
-	abc:
 		bool isCheckForWinner;
 		bool isDraw;
 		
