@@ -10,7 +10,6 @@
 #define MAX_MOVES 9
 using namespace std;
 HANDLE hConsole;
-
 // Global Variables
 bool isGame = true;
 int movesScore[MAX_MOVES];
@@ -29,13 +28,31 @@ struct GameNode {
 	int score;
 	GameNode *node;
 };
+
+class A;
+
 class TicTacToe {
 private:
-	static char box[3][3];
+	A a;
+	char box[3][3] = {
+		{ 'O', ' ', 'X' },
+		{ 'X', ' ', ' ' },
+		{ 'X', 'O', 'O' }
+	};
 	int positionForUser;
 	string Player1, Player2;
 
 public:
+	int calculatePossibleMoveForComputer();
+	void makeNodes(GameNode *node);
+	TicTacToe() {
+		a = A();
+	}
+	GameNode* createNode(char arr[3][3]) {
+		GameNode *temp = new GameNode;
+		copyArrayValues(temp->nodeBox, arr);
+		temp->node = NULL;
+	}
 	void printBoard() {
 		cout << endl;
 		gotoxy(10, 2);
@@ -335,17 +352,27 @@ public:
 		}
 		return false;
 	}
+	
+	void copyArrayValues(char inCopy[3][3], char toCopy[3][3]) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j>3; j++) {
+				inCopy[i][j] = toCopy[i][j];
+			}
+		}
+	}
+};
 
-	int possibleMoveForComputer();
+class A {
+	private:
+	TicTacToe toe;
+	
+	A() {
+	}
 };
-char TicTacToe::box[3][3] = {
-	{ 'O', ' ', 'X' },
-	{ 'X', ' ', ' ' },
-	{ 'X', 'O', 'O' }
-};
+
+
 int main() {
 	TicTacToe tictactoe;
-
 	while (isGame == true) {
 		bool isCheckForWinner;
 		bool isDraw;
@@ -362,7 +389,7 @@ int main() {
 			gotoxy(1, 20);
 			cout << "Match is Draw " << endl;
 		}
-		int value = tictactoe.possibleMoveForComputer();
+		int value = tictactoe.calculatePossibleMoveForComputer();
 		tictactoe.updateInputIntoZero();
 
 		// return a value to check that the match who wins
@@ -379,22 +406,26 @@ int main() {
 	_getch();
 }
 
-int TicTacToe::possibleMoveForComputer() {
+int TicTacToe::calculatePossibleMoveForComputer() {
 	if (TicTacToe::checkWin() || TicTacToe::isDraw()) {
 		return 10;
 	}
 	else {
-		GameNode *node = new GameNode;
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				node->nodeBox[i][j] = box[i][j];
-			}
-		}
-		for (int i = 0; i < 9; i++) {
-			movesScore[i] = node->score;
-		}
+		
+		GameNode *current = NULL;
+		makeNodes(current);
 
 	}
-
 	return 0;
+}
+
+void TicTacToe::makeNodes(GameNode *node) {
+	node = createNode(box);
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (node->nodeBox[i][j] == ' ') {
+				node->subNode[i][j] = createNode(box);
+			}
+		}
+	}
 }
