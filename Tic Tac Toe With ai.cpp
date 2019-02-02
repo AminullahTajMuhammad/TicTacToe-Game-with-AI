@@ -4,6 +4,7 @@
 #include<iostream>
 #include<conio.h>
 #include<cstdlib>
+#include<array>
 #include<cstring>
 #include<iomanip>				// for setw() function
 #include<Windows.h>				// for coloring and x,y coordinates for consol
@@ -402,6 +403,7 @@ int main() {
 			cout << "Match is Draw " << endl;
 		}
 	}
+	
 
 	_getch();
 }
@@ -425,7 +427,46 @@ void TicTacToe::makeNodes(GameNode *node) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
 				node->subNode[i][j] = createNode(box);
-			}
 		}
 	}
+}
+int TicTacToe::getPosition(GameNode *node) {
+	char* arr[9];
+	*arr[0] = node->nodeBox[0][0];
+	*arr[1] = node->nodeBox[0][1];
+	*arr[2] = node->nodeBox[0][2];
+	*arr[3] = node->nodeBox[1][0];
+	*arr[4] = node->nodeBox[1][1];
+	*arr[5] = node->nodeBox[1][2];
+	*arr[6] = node->nodeBox[2][0];
+	*arr[7] = node->nodeBox[2][1];
+	*arr[8] = node->nodeBox[2][2];
+	
+	int position = 0;
+	for (int i = 0; i < 9; i++) {
+		switch (i) {
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+
+			default:
+				break;
+		}
+	}
+	return position;
 }
