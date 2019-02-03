@@ -7,7 +7,10 @@
 #include<cstring>
 #include<iomanip>				// for setw() function
 #include<Windows.h>				// for coloring and x,y coordinates for consol
+
 #define MAX_MOVES 9
+#deifne COMPUTER 'O'
+
 using namespace std;
 
 HANDLE hConsole;
@@ -30,7 +33,7 @@ void gotoxy(int x, int y) {
 struct GameNode {
 	char nodeBox[3][3];
 	int score;
-	GameNode *subNode[3][3];
+	GameNode *subNode[9];
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
@@ -430,8 +433,9 @@ int TicTacToe::makeNodes(GameNode *node) {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
-				node->subNode[i][j] = createNode(box);
 				positionForUser = getPosition(i, j);
+				node->subNode[positionForUser-1] = createNode(box);
+				node->nodeBox[i][j] = 'O';
 			}
 		}
 	}
