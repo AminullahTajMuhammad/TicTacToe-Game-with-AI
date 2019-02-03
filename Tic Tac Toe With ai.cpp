@@ -4,17 +4,19 @@
 #include<iostream>
 #include<conio.h>
 #include<cstdlib>
-#include<array>
 #include<cstring>
 #include<iomanip>				// for setw() function
 #include<Windows.h>				// for coloring and x,y coordinates for consol
 #define MAX_MOVES 9
 using namespace std;
+
 HANDLE hConsole;
+
+
 // Global Variables
 bool isGame = true;
 int movesScore[MAX_MOVES];
-//---------------//
+int positionForUser;
 
 //---------- X,Y Co-Ordinates Function ---------------//
 void gotoxy(int x, int y) {
@@ -24,36 +26,25 @@ void gotoxy(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
+// - - - - - - - - Game Node for calculate AI of tic tac toe - - - - - - - -// 
 struct GameNode {
 	char nodeBox[3][3];
 	int score;
-	GameNode *node;
+	GameNode *subNode[3][3];
 };
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 
-class A;
 
 class TicTacToe {
 private:
-	A a;
-	char box[3][3] = {
-		{ 'O', ' ', 'X' },
-		{ 'X', ' ', ' ' },
-		{ 'X', 'O', 'O' }
-	};
-	int positionForUser;
+	static char box[3][3];
 	string Player1, Player2;
-
+	GameNode *root = NULL;
 public:
-	int calculatePossibleMoveForComputer();
-	void makeNodes(GameNode *node);
-	TicTacToe() {
-		a = A();
-	}
-	GameNode* createNode(char arr[3][3]) {
-		GameNode *temp = new GameNode;
-		copyArrayValues(temp->nodeBox, arr);
-		temp->node = NULL;
-	}
+
+	bool searchNode();
+	void removeNode();			//this is temporary working on it soon
+
 	void printBoard() {
 		cout << endl;
 		gotoxy(10, 2);
@@ -353,30 +344,41 @@ public:
 		}
 		return false;
 	}
-	
+
+	int calculatePossibleMoveForComputer();
+
+	int makeNodes(GameNode *node);
+
+	int getPosition(int i, int j);
+
+	GameNode* createNode(char arr[3][3]) {
+		GameNode *temp = new GameNode;
+		//copyArrayValues(temp->nodeBox, arr);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				temp->nodeBox[i][j] = arr[i][j];
+			}
+		}
+		return temp;
+	}
+
 	void copyArrayValues(char inCopy[3][3], char toCopy[3][3]) {
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j>3; j++) {
+			for (int j = 0; j>3; j++) {+
 				inCopy[i][j] = toCopy[i][j];
 			}
 		}
 	}
 };
-
-class A {
-	private:
-	TicTacToe toe;
-	
-	A() {
-	}
+char TicTacToe::box[3][3] = {
+	{ 'O', ' ', 'X' },
+	{ 'X', ' ', ' ' },
+	{ 'X', 'O', 'O' }
 };
-
-
 int main() {
 	TicTacToe tictactoe;
+
 	while (isGame == true) {
-		bool isCheckForWinner;
-		bool isDraw;
 
 		tictactoe.printBoard();
 		tictactoe.giveinput();
@@ -403,9 +405,8 @@ int main() {
 			cout << "Match is Draw " << endl;
 		}
 	}
-	
 
-	_getch();
+	system("pause");
 }
 
 int TicTacToe::calculatePossibleMoveForComputer() {
@@ -413,7 +414,10 @@ int TicTacToe::calculatePossibleMoveForComputer() {
 		return 10;
 	}
 	else {
-		
+		/*
+		1==> Search Empty Position and creat node on it with new position.
+		2==> Check new position score
+		*/
 		GameNode *current = NULL;
 		makeNodes(current);
 
@@ -421,52 +425,31 @@ int TicTacToe::calculatePossibleMoveForComputer() {
 	return 0;
 }
 
-void TicTacToe::makeNodes(GameNode *node) {
+int TicTacToe::makeNodes(GameNode *node) {
 	node = createNode(box);
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
 				node->subNode[i][j] = createNode(box);
+				positionForUser = getPosition(i, j);
+			}
 		}
 	}
-}
-int TicTacToe::getPosition(GameNode *node) {
-	char* arr[9];
-	*arr[0] = node->nodeBox[0][0];
-	*arr[1] = node->nodeBox[0][1];
-	*arr[2] = node->nodeBox[0][2];
-	*arr[3] = node->nodeBox[1][0];
-	*arr[4] = node->nodeBox[1][1];
-	*arr[5] = node->nodeBox[1][2];
-	*arr[6] = node->nodeBox[2][0];
-	*arr[7] = node->nodeBox[2][1];
-	*arr[8] = node->nodeBox[2][2];
-	
-	int position = 0;
-	for (int i = 0; i < 9; i++) {
-		switch (i) {
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
 
-			default:
-				break;
-		}
-	}
+	return 0;		// this is for returning score and put the
+}
+
+int TicTacToe::getPosition(int i, int j) {
+	int position = 0;
+	if (i == 0 && j == 0) { position = 1; }
+	else if (i == 0 && j == 1) { position = 2; }
+	else if (i == 0 && j == 2) { position = 3; }
+	else if (i == 1 && j == 0) { position = 4; }
+	else if (i == 1 && j == 1) { position = 5; }
+	else if (i == 1 && j == 2) { position = 6; }
+	else if (i == 2 && j == 0) { position = 7; }
+	else if (i == 2 && j == 1) { position = 8; }
+	else if (i == 2 && j == 2) { position = 9; }
+
 	return position;
 }
