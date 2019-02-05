@@ -1,5 +1,6 @@
 // ToDo Before this game
 // Implement remove function in tree node
+// Pass Array to all function to calculate the values
 
 #include<iostream>
 #include<conio.h>
@@ -9,7 +10,13 @@
 #include<Windows.h>				// for coloring and x,y coordinates for consol
 
 #define MAX_MOVES 9
-#deifne COMPUTER 'O'
+#define WIN 1000
+#define LOSE -1000
+#define DRAW 0
+
+#define USER 'X'
+#define COMPUTER 'O'
+#define SPACE ' '
 
 using namespace std;
 
@@ -20,7 +27,7 @@ HANDLE hConsole;
 bool isGame = true;
 int movesScore[MAX_MOVES];
 int positionForUser;
-
+int positionForComputer;
 //---------- X,Y Co-Ordinates Function ---------------//
 void gotoxy(int x, int y) {
 	COORD coord;
@@ -32,7 +39,7 @@ void gotoxy(int x, int y) {
 // - - - - - - - - Game Node for calculate AI of tic tac toe - - - - - - - -// 
 struct GameNode {
 	char nodeBox[3][3];
-	int score;
+	int score = 0;
 	GameNode *subNode[9];
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -40,15 +47,14 @@ struct GameNode {
 
 class TicTacToe {
 private:
-	static char box[3][3];
 	string Player1, Player2;
 	GameNode *root = NULL;
 public:
-
+	static char box[3][3];
 	bool searchNode();
 	void removeNode();			//this is temporary working on it soon
 
-	void printBoard() {
+	void printBoard(char box[3][3]) {
 		cout << endl;
 		gotoxy(10, 2);
 		cout << setw(4) << box[0][0] << "\t|" << setw(4) << box[0][1] << "\t|" << setw(4) << box[0][2];
@@ -62,7 +68,7 @@ public:
 		cout << setw(4) << box[2][0] << "\t|" << setw(4) << box[2][1] << "\t|" << setw(4) << box[2][2];
 	}
 
-	void giveinput() {
+	void giveinput(char box[3][3]) {
 	xyz:
 		hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		gotoxy(1, 8);
@@ -178,17 +184,17 @@ public:
 				goto xyz;
 			}
 		}
-		printBoard();
+		printBoard(box);
 	}
 
-	void updateInputIntoZero() {
+	void updateInputIntoZero(char box[3][3]) {
 	AGAIN:
-		gotoxy(1, 12);
-		cout << "O player turn: ";
-		gotoxy(1, 13);
-		cout << "Enter Position in numbers: ";
-		cin >> positionForUser;
-		if (positionForUser == 1) {
+		//gotoxy(1, 12);
+		//cout << "O player turn: ";
+		//gotoxy(1, 13);
+		//cout << "Enter Position in numbers: ";
+		//cin >> positionForUser;
+		if (positionForComputer == 1) {
 			if (box[0][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][0] = 'O';
@@ -201,7 +207,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 2) {
+		else if (positionForComputer == 2) {
 			if (box[0][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][1] = 'O';
@@ -214,7 +220,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 3) {
+		else if (positionForComputer == 3) {
 			if (box[0][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][2] = 'O';
@@ -227,7 +233,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 4) {
+		else if (positionForComputer == 4) {
 			if (box[1][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][0] = 'O';
@@ -240,7 +246,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 5) {
+		else if (positionForComputer == 5) {
 			if (box[1][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][1] = 'O';
@@ -253,7 +259,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 6) {
+		else if (positionForComputer == 6) {
 			if (box[1][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][2] = 'O';
@@ -266,7 +272,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 7) {
+		else if (positionForComputer == 7) {
 			if (box[2][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][0] = 'O';
@@ -279,7 +285,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 8) {
+		else if (positionForComputer == 8) {
 			if (box[2][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][1] = 'O';
@@ -292,7 +298,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForUser == 9) {
+		else if (positionForComputer == 9) {
 			if (box[2][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][2] = 'O';
@@ -306,10 +312,10 @@ public:
 			}
 		}
 		SetConsoleTextAttribute(hConsole, 7);
-		printBoard();
+		printBoard(box);
 	}
 
-	bool checkWin() {
+	bool checkWin(char arr[3][3]) {
 		// Check For X wins
 		if (box[0][0] == 'X' && box[0][1] == 'X' && box[0][2] == 'X' || box[1][0] == 'X' && box[1][1] == 'X' && box[1][2] == 'X' ||
 			box[2][0] == 'X' && box[2][1] == 'X' && box[2][2] == 'X' || box[0][0] == 'X' && box[1][0] == 'X' && box[2][0] == 'X' ||
@@ -338,72 +344,86 @@ public:
 		return false;
 	}
 
-	bool isDraw() {
-		if (box[0][0] != ' ' && box[0][1] != ' ' && box[0][2] != ' ' &&
-			box[1][0] != ' ' && box[1][1] != ' ' && box[1][2] != ' ' &&
-			box[2][0] != ' ' && box[2][1] != ' ' && box[2][2] != ' ' && checkWin() == false) {
+	bool isDraw(char arr[3][3]) {
+		if (arr[0][0] != ' ' && arr[0][1] != ' ' && arr[0][2] != ' ' &&
+			arr[1][0] != ' ' && arr[1][1] != ' ' && arr[1][2] != ' ' &&
+			arr[2][0] != ' ' && arr[2][1] != ' ' && arr[2][2] != ' ' && checkWin(arr) == false) {
 
 			return true;
 		}
 		return false;
 	}
 
+
 	int calculatePossibleMoveForComputer();
-
 	int makeNodes(GameNode *node);
-
 	int getPosition(int i, int j);
+	int getScoreForPossibleMove(char arr[3][3]);
 
 	GameNode* createNode(char arr[3][3]) {
 		GameNode *temp = new GameNode;
 		//copyArrayValues(temp->nodeBox, arr);
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
+					temp->nodeBox[i][j] = arr[i][j];
+			}
+		}
+		return temp;
+	}
+
+	GameNode* createNodeWithNewPosition(char arr[][3], int position) {
+		GameNode *temp = new GameNode;
+		//copyArrayValues(temp->nodeBox, arr);
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
 				temp->nodeBox[i][j] = arr[i][j];
 			}
+				
 		}
 		return temp;
 	}
 
 	void copyArrayValues(char inCopy[3][3], char toCopy[3][3]) {
 		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j>3; j++) {+
+			for (int j = 0; j>3; j++) {
 				inCopy[i][j] = toCopy[i][j];
 			}
 		}
 	}
 };
 char TicTacToe::box[3][3] = {
-	{ 'O', ' ', 'X' },
+	{ 'X', ' ', 'O' },
 	{ 'X', ' ', ' ' },
-	{ 'X', 'O', 'O' }
+	{ 'O', 'X', 'X' }
 };
 int main() {
 	TicTacToe tictactoe;
+	GameNode node;
 
 	while (isGame == true) {
 
-		tictactoe.printBoard();
-		tictactoe.giveinput();
+		tictactoe.printBoard(tictactoe.box);
+		tictactoe.giveinput(tictactoe.box);
 
 		// return a value to check that the match who wins
 		// check win for X player
-		if (tictactoe.checkWin()) {
+		if (tictactoe.checkWin(tictactoe.box)) {
 			break;
 		}
-		if (tictactoe.isDraw()) {
+		if (tictactoe.isDraw(tictactoe.box)) {
 			gotoxy(1, 20);
 			cout << "Match is Draw " << endl;
 		}
 		int value = tictactoe.calculatePossibleMoveForComputer();
-		tictactoe.updateInputIntoZero();
+		tictactoe.updateInputIntoZero(tictactoe.box);
+
 
 		// return a value to check that the match who wins
 		// check win for O player
-		if (tictactoe.checkWin()) {
+		if (tictactoe.checkWin(tictactoe.box)) {
 			break;
 		}
-		if (tictactoe.isDraw()) {
+		if (tictactoe.isDraw(tictactoe.box)) {
 			gotoxy(1, 20);
 			cout << "Match is Draw " << endl;
 		}
@@ -413,34 +433,24 @@ int main() {
 }
 
 int TicTacToe::calculatePossibleMoveForComputer() {
-	if (TicTacToe::checkWin() || TicTacToe::isDraw()) {
-		return 10;
-	}
-	else {
-		/*
-		1==> Search Empty Position and creat node on it with new position.
-		2==> Check new position score
-		*/
-		GameNode *current = NULL;
-		makeNodes(current);
-
-	}
+	GameNode *current = createNode(box);
+	makeNodes(current);
+	
 	return 0;
 }
 
 int TicTacToe::makeNodes(GameNode *node) {
-	node = createNode(box);
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
-				positionForUser = getPosition(i, j);
-				node->subNode[positionForUser-1] = createNode(box);
-				node->nodeBox[i][j] = 'O';
+				positionForComputer = getPosition(i, j);
+				node->subNode[positionForComputer - 1] = createNode(box);
+				node->subNode[positionForComputer-1]->nodeBox[i][j] = COMPUTER;
+				node->subNode[positionForComputer - 1]->score = getScoreForPossibleMove(node->subNode[positionForComputer-1]->nodeBox);
 			}
 		}
 	}
-
-	return 0;		// this is for returning score and put the
+	return node->score;		// this is for returning score and put the
 }
 
 int TicTacToe::getPosition(int i, int j) {
@@ -456,4 +466,18 @@ int TicTacToe::getPosition(int i, int j) {
 	else if (i == 2 && j == 2) { position = 9; }
 
 	return position;
+}
+
+int TicTacToe::getScoreForPossibleMove(char arr[3][3]) {
+	int score = 0;
+	if (TicTacToe::checkWin(arr)) {
+		score = 10;
+	}
+	else if (TicTacToe::isDraw(arr)) {
+		score = -10;
+	}
+	else {
+		score = 0;
+	}
+	return score;
 }
