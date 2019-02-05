@@ -28,6 +28,10 @@ bool isGame = true;
 int movesScore[MAX_MOVES];
 int positionForUser;
 int positionForComputer;
+
+int nextMaxScore = -1;
+int nextMovePosition = -1;
+
 //---------- X,Y Co-Ordinates Function ---------------//
 void gotoxy(int x, int y) {
 	COORD coord;
@@ -40,6 +44,7 @@ void gotoxy(int x, int y) {
 struct GameNode {
 	char nodeBox[3][3];
 	int score = 0;
+	int position;
 	GameNode *subNode[9];
 };
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -187,14 +192,15 @@ public:
 		printBoard(box);
 	}
 
-	void updateInputIntoZero(char box[3][3]) {
+	void updateInputIntoZero(int pos) {
 	AGAIN:
 		//gotoxy(1, 12);
 		//cout << "O player turn: ";
 		//gotoxy(1, 13);
 		//cout << "Enter Position in numbers: ";
 		//cin >> positionForUser;
-		if (positionForComputer == 1) {
+
+		if (pos == 1) {
 			if (box[0][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][0] = 'O';
@@ -207,7 +213,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 2) {
+		else if (pos == 2) {
 			if (box[0][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][1] = 'O';
@@ -220,7 +226,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 3) {
+		else if (pos == 3) {
 			if (box[0][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[0][2] = 'O';
@@ -233,7 +239,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 4) {
+		else if (pos == 4) {
 			if (box[1][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][0] = 'O';
@@ -246,7 +252,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 5) {
+		else if (pos == 5) {
 			if (box[1][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][1] = 'O';
@@ -259,7 +265,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 6) {
+		else if (pos == 6) {
 			if (box[1][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[1][2] = 'O';
@@ -272,7 +278,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 7) {
+		else if (pos == 7) {
 			if (box[2][0] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][0] = 'O';
@@ -285,7 +291,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 8) {
+		else if (pos == 8) {
 			if (box[2][1] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][1] = 'O';
@@ -298,7 +304,7 @@ public:
 				goto AGAIN;
 			}
 		}
-		else if (positionForComputer == 9) {
+		else if (pos == 9) {
 			if (box[2][2] == ' ') {
 				SetConsoleTextAttribute(hConsole, 10);
 				box[2][2] = 'O';
@@ -315,7 +321,7 @@ public:
 		printBoard(box);
 	}
 
-	bool checkWin(char arr[3][3]) {
+	bool checkWin(char box[3][3]) {
 		// Check For X wins
 		if (box[0][0] == 'X' && box[0][1] == 'X' && box[0][2] == 'X' || box[1][0] == 'X' && box[1][1] == 'X' && box[1][2] == 'X' ||
 			box[2][0] == 'X' && box[2][1] == 'X' && box[2][2] == 'X' || box[0][0] == 'X' && box[1][0] == 'X' && box[2][0] == 'X' ||
@@ -323,8 +329,8 @@ public:
 			box[0][0] == 'X' && box[1][1] == 'X' && box[2][2] == 'X' || box[0][2] == 'X' && box[1][1] == 'X' && box[2][0] == 'X') {
 
 
-			gotoxy(1, 20);
-			cout << "X player Wins: " << endl;
+			//gotoxy(1, 20);
+			//cout << "X player Wins: " << endl;
 			return true;
 
 		}
@@ -335,8 +341,8 @@ public:
 			box[0][1] == 'O' && box[1][1] == 'O' && box[2][1] == 'O' || box[0][2] == 'O' && box[1][2] == 'O' && box[2][2] == 'O' ||
 			box[0][0] == 'O' && box[1][1] == 'O' && box[2][2] == 'O' || box[0][2] == 'O' && box[1][1] == 'O' && box[2][0] == 'O') {
 
-			gotoxy(1, 20);
-			cout << "O player Wins: " << endl;
+			//gotoxy(1, 20);
+			//cout << "O player Wins: " << endl;
 			return true;
 
 		}
@@ -392,13 +398,13 @@ public:
 	}
 };
 char TicTacToe::box[3][3] = {
-	{ 'X', ' ', 'O' },
-	{ 'X', ' ', ' ' },
-	{ 'O', 'X', 'X' }
+	{ ' ', ' ', ' ' },
+	{ ' ', ' ', ' ' },
+	{ ' ', ' ', ' ' }
 };
 int main() {
 	TicTacToe tictactoe;
-	GameNode node;
+	GameNode *node = tictactoe.createNode(tictactoe.box);
 
 	while (isGame == true) {
 
@@ -413,10 +419,11 @@ int main() {
 		if (tictactoe.isDraw(tictactoe.box)) {
 			gotoxy(1, 20);
 			cout << "Match is Draw " << endl;
+			break;
 		}
-		int value = tictactoe.calculatePossibleMoveForComputer();
-		tictactoe.updateInputIntoZero(tictactoe.box);
 
+		int position = tictactoe.calculatePossibleMoveForComputer();
+		tictactoe.updateInputIntoZero(position);
 
 		// return a value to check that the match who wins
 		// check win for O player
@@ -426,6 +433,7 @@ int main() {
 		if (tictactoe.isDraw(tictactoe.box)) {
 			gotoxy(1, 20);
 			cout << "Match is Draw " << endl;
+			break;
 		}
 	}
 
@@ -433,24 +441,69 @@ int main() {
 }
 
 int TicTacToe::calculatePossibleMoveForComputer() {
+	int position;
 	GameNode *current = createNode(box);
-	makeNodes(current);
-	
-	return 0;
+	position = makeNodes(current);
+
+	return position;
 }
 
 int TicTacToe::makeNodes(GameNode *node) {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
+				
+				// get Position of empty space
 				positionForComputer = getPosition(i, j);
+				
+				// create node on empty space  
 				node->subNode[positionForComputer - 1] = createNode(box);
-				node->subNode[positionForComputer-1]->nodeBox[i][j] = COMPUTER;
+				
+				// put value on empty space node
+				node->subNode[positionForComputer-1]->nodeBox[i][j] = 'O';
+
+				// get score of empty space node
 				node->subNode[positionForComputer - 1]->score = getScoreForPossibleMove(node->subNode[positionForComputer-1]->nodeBox);
+
+				/*
+				int nodeScore = node->subNode[positionForComputer - 1]->score;
+				int nodePosition = positionForComputer;
+				if (nodeScore > nextMaxScore)
+				{
+					nextMaxScore = nodeScore;
+					nextMovePosition = nodePosition;
+				}
+				*/
+
 			}
 		}
 	}
-	return node->score;		// this is for returning score and put the
+
+	/*
+	int maxScore = -1;
+	int maxIndex = -1;
+	for (int i = 0; i < 9; i++)
+	{
+		GameNode *tempNode = node->subNode[i];
+		if (tempNode != NULL)
+		{
+			int nodeScore = tempNode->score;
+			int nodePosition = tempNode->position;
+			if (nodeScore >= maxScore)
+			{
+				maxScore = nodeScore;
+				maxIndex = nodePosition;
+			}
+		}
+	}
+	*/
+	
+
+	//int position = nextMovePosition;
+	//nextMaxScore = -1;
+	//nextMovePosition = -1;
+	
+	return maxIndex;		// this is for returning score and put the
 }
 
 int TicTacToe::getPosition(int i, int j) {
@@ -474,7 +527,7 @@ int TicTacToe::getScoreForPossibleMove(char arr[3][3]) {
 		score = 10;
 	}
 	else if (TicTacToe::isDraw(arr)) {
-		score = -10;
+		score = 10;
 	}
 	else {
 		score = 0;
