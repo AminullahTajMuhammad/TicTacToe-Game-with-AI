@@ -362,7 +362,7 @@ public:
 
 
 	int calculatePossibleMoveForComputer();
-	int makeNodes(GameNode *node);
+	int makeNodes(GameNode *node, char player);
 	int getPosition(int i, int j);
 	int getScoreForPossibleMove(char arr[3][3]);
 
@@ -442,13 +442,14 @@ int main() {
 
 int TicTacToe::calculatePossibleMoveForComputer() {
 	int position;
+	char player = COMPUTER;
 	GameNode *current = createNode(box);
-	position = makeNodes(current);
+	position = makeNodes(current, player);
 
 	return position;
 }
 
-int TicTacToe::makeNodes(GameNode *node) {
+int TicTacToe::makeNodes(GameNode *node, char player) {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
 			if (node->nodeBox[i][j] == ' ') {
@@ -456,31 +457,28 @@ int TicTacToe::makeNodes(GameNode *node) {
 				// get Position of empty space
 				positionForComputer = getPosition(i, j);
 				
-				// create node on empty space  
+				// create node on empty space
 				node->subNode[positionForComputer - 1] = createNode(box);
 				
 				// put value on empty space node
-				node->subNode[positionForComputer-1]->nodeBox[i][j] = 'O';
+				node->subNode[positionForComputer-1]->nodeBox[i][j] = player;
 
 				// get score of empty space node
-				node->subNode[positionForComputer - 1]->score = getScoreForPossibleMove(node->subNode[positionForComputer-1]->nodeBox);
+				node->subNode[positionForComputer - 1]->score = 
+					getScoreForPossibleMove(node->subNode[positionForComputer-1]->nodeBox);
 
-				/*
 				int nodeScore = node->subNode[positionForComputer - 1]->score;
 				int nodePosition = positionForComputer;
-				if (nodeScore > nextMaxScore)
-				{
+				
+				if (nodeScore > nextMaxScore) {
 					nextMaxScore = nodeScore;
 					nextMovePosition = nodePosition;
 				}
-				*/
-
 			}
 		}
 	}
 
-	/*
-	int maxScore = -1;
+	/*int maxScore = -1;
 	int maxIndex = -1;
 	for (int i = 0; i < 9; i++)
 	{
@@ -497,13 +495,28 @@ int TicTacToe::makeNodes(GameNode *node) {
 		}
 	}
 	*/
+
+	
+	/*
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			if (node->subNode[i]->nodeBox[i][j] == ' ') {
+				if (node->subNode[i]->score >= 10) {
+					// for add score in root node 
+					node->score = node->subNode[i]->score;
+					node->position = getPosition(i,j);
+				}
+			}
+		}
+	}
+	*/
 	
 
-	//int position = nextMovePosition;
-	//nextMaxScore = -1;
-	//nextMovePosition = -1;
+	int position = nextMovePosition;
+	nextMaxScore = -1;
+	nextMovePosition = -1;
 	
-	return maxIndex;		// this is for returning score and put the
+	return position;		// this is for returning score and put the
 }
 
 int TicTacToe::getPosition(int i, int j) {
