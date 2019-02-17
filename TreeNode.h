@@ -3,9 +3,14 @@
 using namespace std;
 class TreeNode {
 public:
+	
+	// Data of treeNode
 	int position;
 	int score;
+	int childSize = 0;
 	char gameBox[3][3];
+	
+	// References
 	TreeNode *child[9];
 	TreeNode *parent;
 
@@ -40,5 +45,20 @@ public:
 				original[i][j] = copyed[i][j];
 			}
 		}
+	}
+	
+	void addChild(TreeNode *child) {
+		if(childSize < 0 || childSize > 8) {
+			return;
+		}
+		if(child == NULL) {
+			return;
+		}
+		
+		
+		child->parent = this;
+		child[childSize++] = child;
+		childSize++;
+		
 	}
 };
