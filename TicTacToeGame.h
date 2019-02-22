@@ -56,9 +56,99 @@ public:
 		return false;
 	}
 	
+	int getPositionFromXY(int i, int j) {
+		int position;
+		
+		if (i == 0 && j == 0) { position = 1; }
+		else if (i == 0 && j == 1) { position = 2; }
+		else if (i == 0 && j == 2) { position = 3; }
+		else if (i == 1 && j == 0) { position = 4; }
+		else if (i == 1 && j == 1) { position = 5; }
+		else if (i == 1 && j == 2) { position = 6; }
+		else if (i == 2 && j == 0) { position = 7; }
+		else if (i == 2 && j == 1) { position = 8; }
+		else if (i == 2 && j == 2) { position = 9; }
+
+		return position;
+	}
+
+	void getXYfromPosition(int &i, int &j, int position ) {
+		if (position == 1) {	i = 0;		j = 0;	}
+		if (position == 2) {	i = 0;		j = 1;	}
+		if (position == 3) {	i = 0;		j = 2;	}
+		if (position == 4) {	i = 1;		j = 0;	}
+		if (position == 5) {	i = 1;		j = 1;	}
+		if (position == 6) {	i = 1;		j = 2;	}
+		if (position == 7) {	i = 2;		j = 0;	}
+		if (position == 8) {	i = 2;		j = 1;	}
+		if (position == 9) {	i = 2;		j = 2;	}
+	}
 	
 	void startGame() {
+		isGame = true;
+		initBox(gameBox);
 
+		while (isGame) {
+			int pos = -1;
+			
+			printBoard(gameBox); 
+			
+			if (currentPlayer == 'X') {
+				cout << endl << endl << "Enter Position (1-9): ";
+				cin >> pos;
+			}
+			else {
+				cout << endl << endl << "Enter Position (1-9): ";
+				cin >> pos;
+			}
+
+			if (pos != -1) {
+				if (pos < 0 || pos > 9) {
+					cout << "Invalid Position, Enter new position (1-9)";
+					continue;
+				}
+			}
+
+
+			int x = -1;
+			int y = -1;
+
+			getXYfromPosition(x, y, pos);
+			if (x != -1 && y != -1 && gameBox[x][y] = ' ') {
+				gameBox[x][y] = currentPlayer;
+
+				if (checkWin(gameBox, currentPlayer)) {
+					cout << currentPlayer << "Wins!";
+
+					printBoard(gameBox);
+					isGame = false;
+					break;
+				}
+				else if(checkDraw(gameBox, currentPlayer) {
+					cout <<"Match is Draw";
+					printBoard(gameBox);
+					isGame = false;
+					break;
+				} 
+			}
+			else {
+				cout << "This place is filled" << endl;
+			}
+
+			changeInput(currentPlayer);
+		
+		}
+	}
+
+	char changeInput(char move) {
+		if (move == 'X') {
+			move = 'O';
+		}
+		else {
+			move = 'X';
+		}
+
+		return move;
 	}
 
 
