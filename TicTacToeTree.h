@@ -11,10 +11,6 @@ public:
 		root = NULL;
 		childCount = -1;
 	}
-	
-	void addNodes(char box[][3]) {
-		TreeNode *temp = new TreeNode();
-	}
 
 	void addChildInRoot(TreeNode *child) {
 		TreeNode *temp = new TreeNode();
@@ -26,14 +22,14 @@ public:
 	}
 	
 	void addChild(TreeNode *parent, TreeNode *child) {
+		if (parent == NULL) {
+			return;
+		}
+		if (child == NULL) {
+			return;
+		}
 
-	}
-
-	void removeChild() {
-
-	}
-
-	void  removeLeafChild() {
-
+		child->parent = parent;
+		
 	}
 };
