@@ -15,6 +15,19 @@ void gotoxy(int x, int y) {
 
 class TicTacToeGame {
 public:
+
+	char currentPlayer = 'O';
+	bool isGame = false;
+	char gameBox[3][3];
+
+	void initBox(char box[3][3]) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				box[i][j] = ' ';
+			}
+		}
+	}
+
 	void printBoard(char box[3][3]) {
 		cout << endl;
 		gotoxy(10, 2);
@@ -35,6 +48,7 @@ public:
 			(box[0][0] == player && box[0][1] == player && box[0][2] == player) ||
 			(box[1][0] == player && box[1][1] == player && box[1][2] == player) ||
 			(box[2][0] == player && box[2][1] == player && box[2][2] == player) ||
+			(box[0][0] == player && box[1][0] == player && box[2][0] == player) ||
 			(box[0][1] == player && box[1][1] == player && box[2][1] == player) ||
 			(box[0][2] == player && box[1][2] == player && box[2][2] == player) ||
 			(box[0][0] == player && box[1][1] == player && box[2][2] == player) ||
@@ -56,6 +70,7 @@ public:
 		return false;
 	}
 	
+
 	int getPositionFromXY(int i, int j) {
 		int position;
 		
@@ -110,11 +125,11 @@ public:
 			}
 
 
-			int x = -1;
-			int y = -1;
+			int x ;
+			int y ;
 
 			getXYfromPosition(x, y, pos);
-			if (x != -1 && y != -1 && gameBox[x][y] = ' ') {
+			if ((x != -1) && (y != -1) && (gameBox[x][y] = ' ')) {
 				gameBox[x][y] = currentPlayer;
 
 				if (checkWin(gameBox, currentPlayer)) {
@@ -124,7 +139,7 @@ public:
 					isGame = false;
 					break;
 				}
-				else if(checkDraw(gameBox, currentPlayer) {
+				else if(checkDraw(gameBox, currentPlayer)) {
 					cout <<"Match is Draw";
 					printBoard(gameBox);
 					isGame = false;
@@ -135,7 +150,7 @@ public:
 				cout << "This place is filled" << endl;
 			}
 
-			changeInput(currentPlayer);
+			currentPlayer = changeInput(currentPlayer);
 		
 		}
 	}
@@ -150,6 +165,4 @@ public:
 
 		return move;
 	}
-
-
 };
