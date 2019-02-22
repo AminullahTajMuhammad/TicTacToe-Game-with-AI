@@ -61,4 +61,13 @@ public:
 		childSize++;
 		
 	}
+	
+	void removeChild(TreeNode *child) {
+		if (child == NULL) {
+			return;
+		}
+
+		children[childSize] = NULL;
+		childSize--;
+	}
 };
