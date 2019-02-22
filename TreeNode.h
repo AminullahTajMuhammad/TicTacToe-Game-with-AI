@@ -11,7 +11,7 @@ public:
 	char gameBox[3][3];
 	
 	// References
-	TreeNode *child[9];
+	TreeNode *children[9];
 	TreeNode *parent;
 
 	TreeNode() {
@@ -56,8 +56,8 @@ public:
 		}
 		
 		
-		child->parent = this;
-		child[childSize++] = child;
+		children->parent = this;
+		children[childSize++] = child;
 		childSize++;
 		
 	}
