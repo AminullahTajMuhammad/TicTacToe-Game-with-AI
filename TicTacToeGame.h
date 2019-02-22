@@ -30,10 +30,31 @@ public:
 	}
 	void getInput(char box[3][3]);
 	
-	bool checkWin(char box[3][3], char player);
+	bool checkWin(char box[3][3], char player) {
+		if (
+			(box[0][0] == player && box[0][1] == player && box[0][2] == player) ||
+			(box[1][0] == player && box[1][1] == player && box[1][2] == player) ||
+			(box[2][0] == player && box[2][1] == player && box[2][2] == player) ||
+			(box[0][1] == player && box[1][1] == player && box[2][1] == player) ||
+			(box[0][2] == player && box[1][2] == player && box[2][2] == player) ||
+			(box[0][0] == player && box[1][1] == player && box[2][2] == player) ||
+			(box[0][2] == player && box[1][1] == player && box[2][0] == player)) {
+			return true;
+		}
+
+		return false;
+	}
 	
 	
-	bool checkDraw(char box[3][3], char player);
+	bool checkDraw(char arr[3][3], char player) {
+		if (arr[0][0] != ' ' && arr[0][1] != ' ' && arr[0][2] != ' ' &&
+			arr[1][0] != ' ' && arr[1][1] != ' ' && arr[1][2] != ' ' &&
+			arr[2][0] != ' ' && arr[2][1] != ' ' && arr[2][2] != ' ' && checkWin(arr, player) == false) {
+
+			return true;
+		}
+		return false;
+	}
 	
 	
 	void startGame() {
